@@ -5,7 +5,7 @@ django-charts
 Documentation
 -------------
 
-The full documentation is at https://dj-charts.readthedocs.io.
+The full documentation is at https://django-charts.readthedocs.io/en/latest/
 
 Quickstart
 ----------
