@@ -46,18 +46,14 @@ in views.py import type chart to want use:
 
 in your template that you want render chart:
 
-<html>
-<head>
-</head>
-<body>
-    {% load dj_charts %}
+{% load dj_charts %}
 
-    <canvas id="{{ id }}"></canvas>
+<canvas id="{{ id }}"></canvas>
 
-    in extra javascript block
-    {% load_chart dataChart %}
-</body>
-</html>
+in extra javascript block
+{% load_chart dataChart %}
+
+
 Features
 --------
 
