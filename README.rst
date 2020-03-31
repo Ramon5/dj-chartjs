@@ -36,7 +36,7 @@ in views.py import type chart to want use:
     class ExampleChart(BarChart, TemplateView):
         ...
         title = "Index of ..."
-        id_chart = "barchart_example" //any value
+        id_chart = "barchart_example" #any value
 
         def generate_labels(self):
             return ["Africa","Brazil","Japan","EUA"]
