@@ -1,0 +1,9 @@
+<script type="text/javascript">
+    $(function(){        
+        new Chart(document.getElementById("{{ id_chart }}"), {
+            type: "{{ type_chart }}",
+            data: {{ dataChart.data|safe }},
+            options: {{ dataChart.options|safe }}
+        });
+    });
+</script>
