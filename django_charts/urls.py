@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-from django.conf.urls import url
-from django.views.generic import TemplateView
+from django.urls import path
+from django_charts.views import HomeView
 
-from . import views
-
-
-app_name = 'django_charts'
 urlpatterns = [
-    url(r'', TemplateView.as_view(template_name="base.html")),
-    ]
+    path('', HomeView.as_view(), name="home"),
+]

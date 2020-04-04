@@ -26,7 +26,7 @@ class BaseChart:
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         if self.id_chart:
-            context["dataChart"] = { "data": self._generate_data(), "options": self.generate_options()}
+            context["chart"] = { "data": self._generate_data(), "options": self.generate_options()}
             context["type"] = self.type_chart
             context["id"] = self.id_chart
         return context
@@ -49,8 +49,18 @@ class BarChart(BaseChart):
             "title": {
                 "display": True if self.title is not None else False,
                 "text": self.title
-            }
+            },
         }
+        if self.type_chart == "bar":
+            options["scales"] = {
+                "yAxes": [{
+                    "display": True,
+                    "ticks": {
+                        "beginAtZero": True
+                    }
+                }]
+            }
+            
         return json.dumps(options)
         
     
@@ -83,11 +93,20 @@ class RadarChart:
     def generate_values(self):
         return []
 
+    def create_node(self,label,values):
+        node = RadarNode()
+        node.label = label
+        node.backgroundColor = self._get_color()
+        node.borderColor = node.backgroundColor
+        node.data = values
+
+        return node.serialize()
+
 
     def _get_data(self):        
         return json.dumps({
             "labels": self.generate_labels(),
-            "datasets": self.generate_nodes() 
+            "datasets": self.generate_values() 
         })
 
     def generate_options(self):
@@ -102,8 +121,8 @@ class RadarChart:
     '''
         Generate random rgba colors
     '''
-    def get_color(self):
-        return "rgba({},{},{},0.2)".format(
+    def _get_color(self):
+        return "rgba({},{},{},0.4)".format(
             *map(lambda x: random.randint(0, 255), range(5))
         )
 

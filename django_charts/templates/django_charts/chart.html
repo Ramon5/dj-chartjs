@@ -1,9 +1,31 @@
+{% load static %}
+<!--<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script> -->
+<canvas id="{{ id_chart }}"></canvas>
+<script src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
-    $(function(){        
+    $(function(){  
+        var extraOptions = {        
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let datasets = ctx.chart.data.datasets;
+                    if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                        let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = Math.round((value / sum) * 100) + '%';
+                        return percentage;
+                    } else {
+                        return percentage;
+                    }
+                },
+            color: '#fff',
+            }        
+        };      
+
+        var contextOptions = {{ chart.options|safe }};
+
         new Chart(document.getElementById("{{ id_chart }}"), {
             type: "{{ type_chart }}",
-            data: {{ dataChart.data|safe }},
-            options: {{ dataChart.options|safe }}
+            data: {{ chart.data|safe }},
+            options: contextOptions
         });
     });
 </script>
