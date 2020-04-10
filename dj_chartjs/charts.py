@@ -1,18 +1,20 @@
 import json
 import random
+from abc import ABC, abstractmethod
 
 '''
     Objects represent chartjs instances
 '''
-class ChartMixin:
+class ChartMixin(ABC):
     beginAtZero = True
     aspectRatio = False
     title = None
     legend = False
     type_chart = None
 
+    @abstractmethod
     def generate_dataset(self):
-        return []
+        pass
 
     def generate_options(self):
         return {

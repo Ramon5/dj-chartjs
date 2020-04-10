@@ -1,18 +1,17 @@
 from django.shortcuts import render
 import json
-import abc
+from abc import ABC,abstractmethod
 import random
 
 
-class BaseChartView:
+class BaseChartView(ABC):
 
-    id_chart = None
     type_chart = None
     title = None
     legend = False
     
 
-    @abc.abstractmethod
+    @abstractmethod
     def generate_values(self):
         pass
 
@@ -26,16 +25,15 @@ class BaseChartView:
         }
         return options
     
-    @abc.abstractmethod
+    @abstractmethod
     def generate_labels(self):
-        return []
+        pass
 
     def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.id_chart:
-            context["chart"] = { "data": self._generate_data(), "options": self.generate_options()}
-            context["type"] = self.type_chart
-            context["id"] = self.id_chart
+        context = super().get_context_data(**kwargs)        
+        context["chart"] = { "data": self._generate_data(), "options": self.generate_options()}
+        context["type"] = self.type_chart
+            
         return context
 
 
@@ -134,11 +132,10 @@ class RadarChartView(BaseChartView):
         )
     
     def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.id_chart:
-            context["chart"] = { "data": self._generate_data(), "options": self.generate_options()}
-            context["type"] = self.type_chart
-            context["id"] = self.id_chart
+        context = super().get_context_data(**kwargs)        
+        context["chart"] = { "data": self._generate_data(), "options": self.generate_options()}
+        context["type"] = self.type_chart
+            
         return context
 
 
@@ -163,6 +160,14 @@ class PieChartView(BarChartView):
         }      
             
         return json.dumps(options)
+    
+    def get_legend_text(self):
+        return ""
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["legend"] = self.get_legend_text()
+        return context
 
 
 class DoughnutChartView(PieChartView):

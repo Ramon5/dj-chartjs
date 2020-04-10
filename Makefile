@@ -10,7 +10,7 @@ except:
 webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
 endef
 export BROWSER_PYSCRIPT
-BROWSER := python -c "$$BROWSER_PYSCRIPT"
+BROWSER := python3 -c "$$BROWSER_PYSCRIPT"
 
 help:
 	@grep '^[a-zA-Z]' $(MAKEFILE_LIST) | sort | awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
@@ -28,7 +28,7 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*~' -exec rm -f {} +
 
 lint: ## check style with flake8
-	flake8 django_charts tests
+	flake8 dj_chartjs tests
 
 test: ## run tests quickly with the default Python
 	python runtests.py tests
@@ -45,15 +45,15 @@ coverage: ## check code coverage quickly with the default Python
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/django-charts.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ django_charts
+	sphinx-apidoc -o docs/ dj_chartjs
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 release: clean ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	python3 setup.py sdist bdist_wheel
+	twine upload dist/*
 
 sdist: clean ## package
-	python setup.py sdist
+	python3 setup.py sdist
 	ls -l dist
