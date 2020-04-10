@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.views.generic.base import View, TemplateView
 import json
 import abc
 import random
@@ -169,21 +168,5 @@ class PieChartView(BarChartView):
 class DoughnutChartView(PieChartView):
     type_chart = "doughnut"
 
-
-class HomeView(RadarChartView, TemplateView):
-    
-    template_name = "django_charts/home.html"    
-    title = "Casos confirmados de coronavírus"
-    id_chart = "chart1"
-
-    def generate_labels(self):
-        return ["Africa","Brasil","Mexico","Itália","Japão"]
-
-    def generate_values(self):
-        dataset = []
-        dataset.append(self.create_node("Brasil", [12,8,6,9,64]))
-        return dataset
-
-    
     
 
