@@ -1,154 +1,220 @@
 import json
-import abc
 import random
-from django_charts.entity import RadarNode
 
-class BaseChart:
-
-    id_chart = None
-    type_chart = None
+'''
+    Objects represent chartjs instances
+'''
+class ChartMixin:
+    beginAtZero = True
+    aspectRatio = False
     title = None
-    enable_legend = False
-    
+    legend = False
+    type_chart = None
 
-    @abc.abstractmethod
-    def generate_values(self):
-        pass
-
-    @abc.abstractmethod
-    def generate_options(self):
-        return {}
-    
-    @abc.abstractmethod
-    def generate_labels(self):
+    def generate_dataset(self):
         return []
 
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.id_chart:
-            context["chart"] = { "data": self._generate_data(), "options": self.generate_options()}
-            context["type"] = self.type_chart
-            context["id"] = self.id_chart
-        return context
+    def generate_options(self):
+        return {
+            "responsive": True,
+            "maintainAspectRatio": self.aspectRatio,
+            "legend": {"display": self.legend},
+            "title": {
+                "fontSize": 14,
+                "display": True if self.title is not None else False,
+                "text": self.title if self.title is not None else ""
+            }
+        }
 
 
-class BarChart(BaseChart):
-    label = ""
+class BarChart(ChartMixin):
+
     type_chart = "bar"
 
-    def _generate_data(self):
-        data = {
-            "labels": self.generate_labels(),
-            "datasets": self._generate_dataset(self.generate_values())
-        }
-        return json.dumps(data)
-
     def generate_options(self):
-        options = {
-            "legend": { "display": self.enable_legend },
-            "title": {
-                "display": True if self.title is not None else False,
-                "text": self.title
-            },
+        options = super().generate_options()
+        options["scales"] = {
+            "yAxes": [{
+                "display": True,
+                "ticks": {
+                    "beginAtZero": self.beginAtZero,
+                    "stepSize": 1
+                }
+            }],
         }
-        if self.type_chart == "bar":
-            options["scales"] = {
-                "yAxes": [{
-                    "display": True,
-                    "ticks": {
-                        "beginAtZero": True
-                    }
-                }]
-            }
-            
-        return json.dumps(options)
-        
-    
-    def _generate_dataset(self,values):
-        collection = []
+        return options
+
+    def generate_dataset(self,labels,data,dataLabel=None):
         dataset = {
-            "label": self.label,
-            "backgroundColor": [self._get_color() for entry in self.generate_labels()],
-            "data": values,
+            "labels": list(labels),
+            "datasets": [{
+                "label": dataLabel if dataLabel is not None else "",
+                "backgroundColor": ["#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))) for entry in labels],
+                "data": list(data)
+            }]
         }
-        collection.append(dataset)
-        return collection
 
-    def _get_color(self):
-        return "#{:02x}{:02x}{:02x}".format(
-            *map(lambda x: random.randint(0, 255), range(3))
-        )
+        return {
+            "type": self.type_chart,
+            "data": json.dumps(dataset),
+            "options": json.dumps(self.generate_options())
+        }
 
-class RadarChart:
-    id_chart = None
-    type_chart = "radar"
-    title = None
+class HorizontalBarChart(ChartMixin):
 
-    def generate_labels(self):
-        return []
-
-    '''
-        Create RadarNodes object and add to datasets list
-    '''
-    def generate_values(self):
-        return []
-
-    def create_node(self,label,values):
-        node = RadarNode()
-        node.label = label
-        node.backgroundColor = self._get_color()
-        node.borderColor = node.backgroundColor
-        node.data = values
-
-        return node.serialize()
-
-
-    def _get_data(self):        
-        return json.dumps({
-            "labels": self.generate_labels(),
-            "datasets": self.generate_values() 
-        })
+    type_chart = "horizontalBar"
 
     def generate_options(self):
-        options = {
-            "title": {
-                "display": True if self.title is not None else False,
-                "text": self.title
-            }
+        options = super().generate_options()
+        options["scales"] = {
+            "xAxes": [{
+                "display": True,
+                "ticks": {
+                    "beginAtZero": self.beginAtZero,
+                    "stepSize": 1
+                }
+            }],
         }
-        return json.dumps(options)
+        return options
 
-    '''
-        Generate random rgba colors
-    '''
+    def generate_dataset(self,labels,data,dataLabel=None):
+        dataset = {
+            "labels": list(labels),
+            "datasets": [{
+                "label": dataLabel if dataLabel is not None else "",
+                "backgroundColor": ["#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))) for entry in labels],
+                "data": list(data)
+            }]
+        }
+
+        return {
+            "type": self.type_chart,
+            "data": json.dumps(dataset),
+            "options": json.dumps(self.generate_options())
+        }
+
+
+class PieChart(ChartMixin):
+    type_chart = "pie"
+
+    def generate_options(self):
+        context = super().generate_options()
+        context["legend"] = {
+            "position": "right"
+        }
+        return context
+
+    def generate_dataset(self,labels,data,dataLabel=None):
+        dataset = {
+            "labels": list(labels),
+            "datasets": [{
+                "label": dataLabel if dataLabel is not None else "",
+                "backgroundColor": ["#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))) for entry in labels],
+                "data": list(data)
+            }]
+        }
+
+        return {
+            "type": self.type_chart,
+            "data": json.dumps(dataset),
+            "options": json.dumps(self.generate_options())
+        }
+
+class DoughnutChart(PieChart):
+    type_chart = "doughnut"
+
+class PolarChart(PieChart):
+    type_chart = "polarArea"
+
+class LineChart(ChartMixin):
+    type_chart = "line"
+    _dataset = []
+
+    def create_node(self,data,label,fill=False):
+        return {
+            "data": list(data),
+            "label": label,
+            "borderColor": "#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))),
+            "fill": fill
+        }
+
+    def generate_options(self):
+        options = super().generate_options()
+        options["scales"] = {
+            "yAxes": [{
+                "display": True,
+                "ticks": {
+                    "beginAtZero": self.beginAtZero,
+                    "stepSize": 1
+                }
+            }],
+        }
+        return options
+
+    def generate_dataset(self,data,labels):
+        dataset = { 
+            "labels": labels,
+            "datasets": data
+        }
+
+        return {
+            "type": self.type_chart,
+            "data": json.dumps(dataset),
+            "options": json.dumps(self.generate_options())
+        }
+        
+
+class GroupChart(ChartMixin):
+    type_chart = "bar"
+
+    def create_node(self,data,label):
+        return {
+            "label": label,
+            "backgroundColor": "#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))),
+            "data": list(data)
+        }
+        
+    def generate_dataset(self,labels,data):
+        dataset = { 
+            "labels": list(labels),
+            "datasets": list(data)
+        }
+
+        return {
+            "type": self.type_chart,
+            "data": json.dumps(dataset),
+            "options": json.dumps(self.generate_options())
+        }
+
+class RadarChart(ChartMixin):
+    
+    type_chart = "radar"
+
+    def create_node(self,label,data):
+        color = self._get_color()
+        return {
+            "label": label,
+            "fill": True,
+            "backgroundColor": color,
+            "borderColor": color,
+            "pointBorderColor": "#fff",
+            "pointBackgroundColor": color,
+            "data": list(data)
+        }
+    
     def _get_color(self):
         return "rgba({},{},{},0.4)".format(
             *map(lambda x: random.randint(0, 255), range(5))
         )
 
+    def generate_dataset(self,labels,data):
+        dataset = { 
+            "labels": list(labels),
+            "datasets": list(data)
+        }
 
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)               
-        if self.id_chart:
-            context["type"] = self.type_chart
-            context["id"] = self.id_chart
-            context["dataChart"] = {"data": self._get_data(), "options": self.generate_options()}
-        return context
-
-
-class HorizontalBarChart(BarChart):
-    type_chart = "horizontalBar"
-
-
-class PolarAreaChart(BarChart):
-    type_chart = "polarArea"
-
-
-class PieChart(BarChart):
-    type_chart = "pie"
-
-
-class DoughnutChart(PieChart):
-    type_chart = "doughnut"
-
-    
+        return {
+            "type": self.type_chart,
+            "data": json.dumps(dataset),
+            "options": json.dumps(self.generate_options())
+        }
