@@ -26,6 +26,8 @@ Add it to your `INSTALLED_APPS`:
 
 How to render chart as a View:
 
+Available BarChartView, PieChartView, DoughnutChartView, RadarChartView, HorizontalBarChartView, PolarAreaChartView
+
 in views.py import type chart to want use:
 
 .. code-block:: python
@@ -47,10 +49,81 @@ in views.py import type chart to want use:
 in your template that you want render chart, use this tag:
 
 {% load dj_chartjs %}
-
+<html>
+<head></head>
+<body>
 
 {% render_chart chart %}
 
+</body>
+</html>
+
+How to use multiples charts as objects
+
+in your views.py:
+
+from django.views.generic import TemplateView
+from dj_chartjs.charts import BarChart
+
+class ExampleView(TemplateView):
+
+    template_name = "core/example.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        barchart = BarChart()
+        barchart.title = "Example charts title"
+
+        labels = ["test 1","test 2", "test 3", "test 4"]
+        data = [2,3,10,6]
+        label = "Test"
+
+        context["chart"] = barchart.generate_dataset(labels, data, label)
+        return context
+
+And in your "example.html" template use this:
+
+<canvas id="mychart"></canvas>
+
+on script section:
+
+$(function(){
+    new Chart(document.getElementById("mychart"), {
+        type: "{{ chart.type }}",
+        data: {{ chart.data|safe }},
+        options: {{ chart.options|safe }}
+    });
+})
+
+your can be use chart object in any function in your views.py, for example:
+
+class ExampleView(TemplateView):
+
+    template_name = "core/example.html"
+
+    def my_method(self):
+        barchart = BarChart()
+        barchart.title = "Example charts title"
+
+        labels = ["test 1","test 2", "test 3", "test 4"]
+        data = [2,3,10,6]
+        label = "Test"
+
+        return barchart.generate_dataset(labels, data, label)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["chart"] = self.my_method() #any key in context
+
+        return context
+
+
+The charts available in package is: BarChart, PieChart, HorizontalBarChart, DoughnutChart, PolarAreaChart, RadarChart, LineChart, GroupChart
+
+It's possible define options to object chart, for example:
+
+barchart.title
+barchart.legend = True
 
 
 

@@ -125,12 +125,11 @@ class PieChart(ChartMixin):
 class DoughnutChart(PieChart):
     type_chart = "doughnut"
 
-class PolarChart(PieChart):
+class PolarAreaChart(PieChart):
     type_chart = "polarArea"
 
 class LineChart(ChartMixin):
     type_chart = "line"
-    _dataset = []
 
     def create_node(self,data,label,fill=False):
         return {
