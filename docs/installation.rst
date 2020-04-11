@@ -4,9 +4,10 @@ Installation
 
 At the command line::
 
-    $ easy_install django-charts
+    $ pip install dj-chartjs
+    $ easy_install dj-chartjs
 
 Or, if you have virtualenvwrapper installed::
 
-    $ mkvirtualenv django-charts
-    $ pip install django-charts
+    $ mkvirtualenv venv
+    $ pip install dj-chartjs

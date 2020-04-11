@@ -2,25 +2,34 @@
 Usage
 =====
 
-To use django-charts in a project, add it to your `INSTALLED_APPS`:
+To use dj-chartjs in a project, add it to your `INSTALLED_APPS`:
 
 .. code-block:: python
 
     INSTALLED_APPS = (
         ...
-        'django_charts.apps.DjangoChartsConfig',
+        'dj_chartjs',
         ...
     )
 
-Add django-charts's URL patterns:
+Using the RadarChartView:
 
 .. code-block:: python
 
-    from django_charts import urls as django_charts_urls
+    from dj_chartjs.views import RadarChartView
+    from django.views.generic import TemplateView
 
+    class ExampleView(RadarChartView, TemplateView):
 
-    urlpatterns = [
-        ...
-        url(r'^', include(django_charts_urls)),
-        ...
-    ]
+        template_name = "core/example.html"    
+        title = "Casos confirmados de coronavírus"
+
+        def generate_labels(self):
+            return ["Africa","Brasil","Mexico","Itália","Japão"]
+
+        def generate_values(self):
+            dataset = []
+            dataset.append(self.create_node("Brasil", [12,8,6,9,64]))
+            return dataset
+
+Use the create_node method to generate object for radar dataset, this method will return an dict for datatype radarchart. The method accept two parameters: label of unit data and dataset list.

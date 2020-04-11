@@ -30,9 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django_charts',
+    'dj_chartjs',
     
-    'django_charts.test_utils.test_app'
+    'dj_chartjs.test_utils.test_app'
     
 
     # if your app has other dependencies that need to be added to the site
