@@ -4,7 +4,7 @@
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
     var chartOptions = {{ chart.options|safe }};
-    var legendText = {{ legend }};
+    var legendText = {{ legend_text }};
     callback = {
         callbacks: {
             label: function(tooltipItem,data) {
