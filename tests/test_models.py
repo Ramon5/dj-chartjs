@@ -10,10 +10,10 @@ Tests for `django-charts` models module.
 
 from django.test import TestCase
 
-from django_charts import models
+from dj_chartjs import models
 
 
-class TestDjango_charts(TestCase):
+class TestDj_chartjs(TestCase):
 
     def setUp(self):
         pass
