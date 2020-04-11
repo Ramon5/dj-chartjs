@@ -7,8 +7,7 @@ def render_chart(context,values):
     chart = {
         "chart": values,
         "type_chart": context["type"],
-    }
-    if context.get("legend"):
-        chart["legend_text"] = context.get("legend")
+        "legend_text": context.get("legend") if context.get("legend") else ""
+    }        
         
     return chart
