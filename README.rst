@@ -48,38 +48,42 @@ in views.py import type chart to want use:
 
 in your template that you want render chart, use this tag:
 
-{% load dj_chartjs %}
-<html>
-<head></head>
-<body>
+.. code-block:: html
 
-{% render_chart chart %}
+    {% load dj_chartjs %}
+    <html>
+    <head></head>
+    <body>
 
-</body>
-</html>
+    {% render_chart chart %}
+
+    </body>
+    </html>
 
 How to use multiples charts as objects
 
 in your views.py:
 
-from django.views.generic import TemplateView
-from dj_chartjs.charts import BarChart
+.. code-block:: python
 
-class ExampleView(TemplateView):
+    from django.views.generic import TemplateView
+    from dj_chartjs.charts import BarChart
 
-    template_name = "core/example.html"
+    class ExampleView(TemplateView):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        barchart = BarChart()
-        barchart.title = "Example charts title"
+        template_name = "core/example.html"
 
-        labels = ["test 1","test 2", "test 3", "test 4"]
-        data = [2,3,10,6]
-        label = "Test"
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            barchart = BarChart()
+            barchart.title = "Example charts title"
 
-        context["chart"] = barchart.generate_dataset(labels, data, label)
-        return context
+            labels = ["test 1","test 2", "test 3", "test 4"]
+            data = [2,3,10,6]
+            label = "Test"
+
+            context["chart"] = barchart.generate_dataset(labels, data, label)
+            return context
 
 And in your "example.html" template use this:
 
@@ -87,43 +91,47 @@ And in your "example.html" template use this:
 
 on script section:
 
-$(function(){
-    new Chart(document.getElementById("mychart"), {
-        type: "{{ chart.type }}",
-        data: {{ chart.data|safe }},
-        options: {{ chart.options|safe }}
-    });
-})
+.. code-block:: javascript
+
+    $(function(){
+        new Chart(document.getElementById("mychart"), {
+            type: "{{ chart.type }}",
+            data: {{ chart.data|safe }},
+            options: {{ chart.options|safe }}
+        });
+    })
 
 your can be use chart object in any function in your views.py, for example:
 
-class ExampleView(TemplateView):
+.. code-block:: python
 
-    template_name = "core/example.html"
+    class ExampleView(TemplateView):
 
-    def my_method(self):
-        barchart = BarChart()
-        barchart.title = "Example charts title"
+        template_name = "core/example.html"
 
-        labels = ["test 1","test 2", "test 3", "test 4"]
-        data = [2,3,10,6]
-        label = "Test"
+        def my_method(self):
+            barchart = BarChart()
+            barchart.title = "Example charts title"
 
-        return barchart.generate_dataset(labels, data, label)
+            labels = ["test 1","test 2", "test 3", "test 4"]
+            data = [2,3,10,6]
+            label = "Test"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["chart"] = self.my_method() #any key in context
+            return barchart.generate_dataset(labels, data, label)
 
-        return context
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["chart"] = self.my_method() #any key in context
+
+            return context
 
 
 The charts available in package is: BarChart, PieChart, HorizontalBarChart, DoughnutChart, PolarAreaChart, RadarChart, LineChart, GroupChart
 
 It's possible define options to object chart, for example:
 
-barchart.title
-barchart.legend = True
+| barchart.title = "..."
+| barchart.legend = True
 
 
 
