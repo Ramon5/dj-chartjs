@@ -1,5 +1,5 @@
 =============================
-django-charts
+dj-chartjs
 =============================
 
 Documentation
@@ -24,7 +24,14 @@ Add it to your `INSTALLED_APPS`:
         ...
     )
 
-How to render chart as a View:
+**PS: You need define jquery and chartjs libraries in your html section script**
+
+.. code-block:: html
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+
+**How to render chart as a View:**
 
 Available BarChartView, PieChartView, DoughnutChartView, RadarChartView, HorizontalBarChartView, PolarAreaChartView
 
@@ -60,7 +67,7 @@ in your template that you want render chart, use this tag:
     </body>
     </html>
 
-How to use multiples charts as objects
+**How to use multiples charts as objects**
 
 in your views.py:
 
@@ -101,7 +108,7 @@ on script section:
         });
     })
 
-your can be use chart object in any function in your views.py, for example:
+**You can be use chart object in any function in your views.py, for example:**
 
 .. code-block:: python
 
