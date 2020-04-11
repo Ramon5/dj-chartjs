@@ -8,7 +8,7 @@ Charts as views
 
 If you want render only one chart, you can inherit ChartViews available
 
-Available BarChartView, PieChartView, DoughnutChartView, RadarChartView, HorizontalBarChartView, PolarAreaChartView
+Available BarChartView, PieChartView, DoughnutChartView, RadarChartView, HorizontalBarChartView, PolarAreaChartView, LineChartView, GroupChartView
 
 in views.py import type chart to want use:
 
