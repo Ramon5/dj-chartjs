@@ -12,6 +12,8 @@ To use dj-chartjs in a project, add it to your `INSTALLED_APPS`:
         ...
     )
 
+**Use charts as a Views**
+
 Using the RadarChartView:
 
 .. code-block:: python
@@ -59,3 +61,17 @@ Using the GroupChartView:
             ....
             return dataset
 
+if you want resize the chart, just define 'aspectRatio' as False, and set properties 'width' and 'height' with the size that you want
+
+.. code-block:: python
+
+    from dj_chartjs.views import GroupChartView
+    from django.views.generic import TemplateView
+
+    class ExampleView(GroupChartView, TemplateView):
+
+        aspectRatio = False #default is True
+        width = 250
+        height = 360
+
+        ...
