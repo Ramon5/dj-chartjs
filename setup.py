@@ -5,7 +5,7 @@ import re
 import sys
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
@@ -52,9 +52,7 @@ setup(
     author='Ramon dos Santos Rodrigues',
     author_email='ramon.srodrigues01@gmail.com',
     url='https://github.com/ramon5/django-charts',
-    packages=[
-        'dj_chartjs',
-    ],
+    packages=find_packages(),
     include_package_data=True,
     install_requires=[],
     license="MIT",
