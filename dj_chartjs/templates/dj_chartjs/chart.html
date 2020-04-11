@@ -1,6 +1,6 @@
 {% load static %}
 <!--<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script> -->
-<canvas id="chart_view"></canvas>
+<canvas width="{{ width }}" height="{{ height }}" id="chart_view"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
 <script type="text/javascript">
     var chartOptions = {{ chart.options|safe }};

@@ -2,12 +2,15 @@ from django import template
 
 register = template.Library()
 
+
 @register.inclusion_tag("dj_chartjs/chart.html", takes_context=True)
-def render_chart(context,values):
+def render_chart(context, values):
     chart = {
         "chart": values,
         "type_chart": context["type"],
-        "legend_text": context.get("legend") if context.get("legend") else ""
-    }        
-        
+        "legend_text": context.get("legend") if context.get("legend") else "",
+        "width": context.get("width"),
+        "height": context.get("height"),
+    }
+
     return chart

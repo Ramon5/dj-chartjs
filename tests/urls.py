@@ -3,6 +3,4 @@ from __future__ import unicode_literals, absolute_import
 
 from django.urls import path, include
 
-urlpatterns = [
-    path('', include('dj_chartjs.urls')),
-]
+urlpatterns = [path("", include("dj_chartjs.urls"))]

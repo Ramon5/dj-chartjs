@@ -1,4 +1,4 @@
-##Example Project for django_charts
+##Example Project for dj_chartjs
 
 This example is provided as a convenience feature to allow potential users to try the app straight from the app repo without having to create a django project.
 
