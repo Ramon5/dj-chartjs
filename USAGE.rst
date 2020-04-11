@@ -43,6 +43,41 @@ in views.py import type chart to want use:
     </html>
 
 
+**Options to charts views (below default values)**
+
+.. code-block:: python
+
+    title = ""
+    legend = False
+    beginAtZero = False
+    aspectRatio = True
+    width = 100
+    height = 100
+
+If you want resize the chart, just define width an height properties and set aspectRatio as False:
+
+.. code-block:: python
+
+    from django.views.generic.base import TemplateView
+    from django_charts.views import BarChartView
+
+    class ExampleChart(BarChartView, TemplateView):
+        ...
+        title = "Index of ..."
+        id_chart = "barchart_example" #any value
+        aspectRatio = False
+        width = 300
+        height = 250
+
+        def generate_labels(self):
+            return ["Africa","Brazil","Japan","EUA"]
+
+        def generate_values(self):
+            return [1,10,15,8]
+
+
+
+
 Charts as objects
 -----------------
 
