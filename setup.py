@@ -52,7 +52,7 @@ setup(
     author='Ramon dos Santos Rodrigues',
     author_email='ramon.srodrigues01@gmail.com',
     url='https://github.com/ramon5/django-charts',
-    packages=find_packages(),
+    packages=find_packages(include=['templates/*']),
     include_package_data=True,
     install_requires=[],
     license="MIT",
