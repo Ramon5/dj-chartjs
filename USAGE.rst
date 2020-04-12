@@ -113,6 +113,10 @@ The linechart too have create_node method to generate special node for chart.
 For generate a AreaChart define fill as True on create_node method. 
 You too can be pass a color as parameter on this method.
 
+The color must be passed as a string "#606060"
+
+**Example:** self.create_node("Test", [1,2,3,4,5], "#606060")
+
 
 Charts as objects
 -----------------
