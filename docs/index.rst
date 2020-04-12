@@ -8,7 +8,12 @@ Welcome to dj-chartjs's documentation!
 
 Contents:
 
-.. include:: ../README.rst
-.. include:: installation.rst
-.. include:: usage.rst
-.. include:: authors.rst
+.. toctree::
+   :maxdepth: 2
+
+   readme
+   installation
+   usage
+   contributing
+   authors
+   history
