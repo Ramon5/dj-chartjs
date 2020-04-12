@@ -31,7 +31,11 @@ import dj_chartjs
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest',
+              'sphinx.ext.intersphinx', 'sphinx.ext.todo',
+              'sphinx.ext.ifconfig', 'sphinx.ext.viewcode',
+              'sphinx.ext.inheritance_diagram',
+              'sphinx.ext.autosummary']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -46,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-charts'
+project = u'dj-chartjs'
 copyright = u'2020, Ramon dos Santos Rodrigues'
 
 # The version info for the project you're documenting, acts as replacement for

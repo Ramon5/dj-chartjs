@@ -57,7 +57,7 @@ Get Started!
 
 Ready to contribute? Here's how to set up `dj-chartjs` for local development.
 
-1. Fork the `django-charts` repo on GitHub.
+1. Fork the `dj-chartjs` repo on GitHub.
 2. Clone your fork locally::
 
     $ git clone git@github.com:your_name_here/dj-chartjs.git
