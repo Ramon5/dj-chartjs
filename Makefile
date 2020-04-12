@@ -37,13 +37,13 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source django_charts runtests.py tests
+	coverage run --source dj_chartjs runtests.py tests
 	coverage report -m
 	coverage html
 	open htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/django-charts.rst
+	rm -f docs/dj-chartjs.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ dj_chartjs
 	$(MAKE) -C docs clean
