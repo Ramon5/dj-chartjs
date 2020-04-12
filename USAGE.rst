@@ -6,7 +6,7 @@ Usage
 Charts as views
 ---------------
 
-If you want render only one chart, you can inherit ChartViews available
+If you want render only one chart, you can inherit ChartViews available. Is required that you define two essential methods: "generate_labels" and "generate_values".
 
 Available BarChartView, PieChartView, DoughnutChartView, RadarChartView, HorizontalBarChartView, PolarAreaChartView, LineChartView, GroupChartView
 
@@ -20,7 +20,6 @@ in views.py import type chart to want use:
     class ExampleChart(BarChartView, TemplateView):
         ...
         title = "Index of ..."
-        id_chart = "barchart_example" #any value
 
         def generate_labels(self):
             return ["Africa","Brazil","Japan","EUA"]
@@ -64,7 +63,6 @@ If you want resize the chart, just define width an height properties and set asp
     class ExampleChart(BarChartView, TemplateView):
         ...
         title = "Index of ..."
-        id_chart = "barchart_example" #any value
         aspectRatio = False
         width = 300
         height = 250
@@ -76,6 +74,44 @@ If you want resize the chart, just define width an height properties and set asp
             return [1,10,15,8]
 
 
+RadarChartView
+~~~~~~~~~~~~~~
+
+To use `RadarChartView` you need create an special node to add dataset. Using 'create_node' method
+you can pass 'label', data (list) and optional parameter 'color', if you don't pass color, will be generate random color to node. Use this in generate_values method.
+
+Example below:
+
+.. code-block:: python
+
+    from django.views.generic.base import TemplateView
+    from django_charts.views import RadarChartView
+
+    class ExampleChart(RadarChartView, TemplateView):
+        ...
+        title = "Index of ..."
+
+        def generate_labels(self):
+            return ["Africa","Brazil","Japan","EUA"]
+
+        def generate_values(self):
+            dataset = []
+            nodeOne = self.create_node("Example 1", [15,5,2,50]) #you can create many nodes to view in chart
+            ....
+            dataset.append(nodeOne)
+
+            return dataset
+
+LineChartView
+~~~~~~~~~~~~~
+
+If you want use `LineChartView`, is same method that RadarChartView, 
+but have unique difference is the parameter 'fill' that by default is False. 
+The linechart too have create_node method to generate special node for chart.
+
+
+For generate a AreaChart define fill as True on create_node method. 
+You too can be pass a color as parameter on this method.
 
 
 Charts as objects

@@ -101,10 +101,6 @@ class RadarChartView(BaseChartView):
     def generate_labels(self):
         return []
 
-    """
-        Create RadarNodes object and add to datasets list
-    """
-
     def generate_values(self):
         return []
 
