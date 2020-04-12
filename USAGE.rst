@@ -118,6 +118,12 @@ The color must be passed as a string "#606060"
 **Example:** self.create_node("Test", [1,2,3,4,5], "#606060")
 
 
+GroupChartView
+~~~~~~~~~~~~~~
+
+Too heve a crete_node method and same method generate of charts above.
+
+
 Charts as objects
 -----------------
 
@@ -196,13 +202,14 @@ It's possible define options to object chart, for example:
 
 
 Many charts by views
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Here you can be render more than one charts in your template html, just call
 instances of charts and define key in context
 
 .. code-block:: python
 
+    from django.views.generic import TemplateView
     from dj_chartjs.charts import BarChart, PieChart
 
     class ExampleView(TemplateView):
@@ -269,3 +276,104 @@ and section scripts:
             options: {{ piechart.options|safe }}
         });
     });
+
+
+RadarChart
+~~~~~~~~~~
+
+For use radar charts as a object in your view, do this:
+
+.. code-block:: python
+
+    from django.views.generic import TemplateView
+    from dj_chartjs.charts import RadarChart
+
+    class ExampleView(TemplateView):
+
+        template_name = "core/example.html"
+
+        def my_method(self):
+            radarchart = RadarChart()
+            radarchart.title = "Example charts title"
+
+            labels = ["test 1","test 2", "test 3", "test 4"]
+            data = []
+            data.append(self.create_node("Example 1", [5,8,9,64,3])
+            data.append(self.create_node("Example 2", [10,1,19,6,13])
+            ....
+
+            return radarchart.generate_dataset(labels, data, label)
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["chart"] = self.my_method()
+
+            return context
+
+
+LineChart
+~~~~~~~~~
+
+.. code-block:: python
+
+    from djanfo.views.generic import TemplateView
+    from dj_chartjs.charts import LineChart
+
+    class ExampleView(TemplateView):
+
+        template_name = "core/example.html"
+
+        def my_method(self):
+            chart = LineChart()
+            chart.title = "Example charts title"
+
+            labels = ["test 1","test 2", "test 3", "test 4"]
+            data = []
+            data.append(self.create_node("Example 1", [5,8,9,64,3])
+            ....
+
+            return chart.generate_dataset(labels, data, label)
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["chart"] = self.my_method()
+
+            return context
+
+
+AreaChart
+~~~~~~~~~
+
+Just use LineChart and define fill parameter as a True, you can define color to node if you want.
+
+.. code-block:: python
+
+    from djanfo.views.generic import TemplateView
+    from dj_chartjs.charts import LineChart
+
+    class ExampleView(TemplateView):
+
+        template_name = "core/example.html"
+
+        def my_method(self):
+            chart = LineChart()
+            chart.title = "Example charts title"
+
+            labels = ["test 1","test 2", "test 3", "test 4"]
+            data = []
+            data.append(self.create_node("Example 1", [5,8,9,64,3], True)
+            ....
+
+            return chart.generate_dataset(labels, data, label)
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["chart"] = self.my_method()
+
+            return context
+
+
+GroupChart
+~~~~~~~~~~
+
+The same method that charts above, only difference is the create_node method have a color parameter.

@@ -32,6 +32,17 @@ class ChartMixin(ABC):
             },
         }
 
+    def _get_color(self):
+        return "#{:02x}{:02x}{:02x}".format(
+            *map(lambda x: random.randint(0, 255), range(3))
+        )
+
+    def _get_rgba_from_hex(self, color_hex):
+        color = color.lstrip("#")
+        rgb = [int(color[i : i + 2], 16) for i in [0, 2, 4]]
+
+        return "rgba({},{},{}, 0.4)".format(*map(lambda x: rgb))
+
 
 class BarChart(ChartMixin):
 
@@ -154,15 +165,16 @@ class PolarAreaChart(PieChart):
 
 
 class LineChart(ChartMixin):
+    
     type_chart = "line"
 
-    def create_node(self, data, label, fill=False):
+    def create_node(self, data, label, fill=False, color=None):
+        colorData = color if color is not None else self._get_color()
         return {
             "data": list(data),
             "label": label,
-            "borderColor": "#{:02x}{:02x}{:02x}".format(
-                *map(lambda x: random.randint(0, 255), range(3))
-            ),
+            "backgroundColor": self._get_rgba_from_hex(colorData),
+            "borderColor": colorData,
             "fill": fill,
         }
 
@@ -191,12 +203,11 @@ class LineChart(ChartMixin):
 class GroupChart(ChartMixin):
     type_chart = "bar"
 
-    def create_node(self, data, label):
+    def create_node(self, data, label, color=None):
+        colorData = color if color is not None else self._get_color()
         return {
             "label": label,
-            "backgroundColor": "#{:02x}{:02x}{:02x}".format(
-                *map(lambda x: random.randint(0, 255), range(3))
-            ),
+            "backgroundColor": colorData,
             "data": list(data),
         }
 
@@ -214,22 +225,18 @@ class RadarChart(ChartMixin):
 
     type_chart = "radar"
 
-    def create_node(self, label, data):
-        color = self._get_color()
+    def create_node(self, label, data, color=None):
+        colorData = color if color is not None else self._get_rgba_from_hex(color)
         return {
             "label": label,
             "fill": True,
-            "backgroundColor": color,
+            "backgroundColor": colorData,
             "borderColor": color,
             "pointBorderColor": "#fff",
             "pointBackgroundColor": color,
             "data": list(data),
         }
 
-    def _get_color(self):
-        return "rgba({},{},{},0.4)".format(
-            *map(lambda x: random.randint(0, 255), range(5))
-        )
 
     def generate_dataset(self, labels, data):
         dataset = {"labels": list(labels), "datasets": list(data)}
