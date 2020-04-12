@@ -33,6 +33,17 @@ class BaseChartView(ABC):
     def generate_labels(self):
         pass
 
+    def _get_color(self):
+        return "#{:02x}{:02x}{:02x}".format(
+            *map(lambda x: random.randint(0, 255), range(3))
+        )
+
+    def _get_rgba_from_hex(self, color_hex):
+        color = color.lstrip("#")
+        rgb = [int(color[i : i + 2], 16) for i in [0, 2, 4]]
+
+        return "rgba({},{},{}, 0.4)".format(*map(lambda x: rgb))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["chart"] = {
@@ -82,11 +93,6 @@ class BarChartView(BaseChartView):
         collection.append(dataset)
         return collection
 
-    def _get_color(self):
-        return "#{:02x}{:02x}{:02x}".format(
-            *map(lambda x: random.randint(0, 255), range(3))
-        )
-
 
 class RadarChartView(BaseChartView):
 
@@ -102,22 +108,17 @@ class RadarChartView(BaseChartView):
     def generate_values(self):
         return []
 
-    def create_node(self, label, data):
-        color = self._get_color()
+    def create_node(self, label, data, color=None):
+        colorData = color if color is not None else self._get_color()
         return {
             "label": label,
             "fill": True,
-            "backgroundColor": color,
-            "borderColor": color,
+            "backgroundColor": self._get_rgba_from_hex(colorData),
+            "borderColor": colorData,
             "pointBorderColor": "#fff",
-            "pointBackgroundColor": color,
+            "pointBackgroundColor": colorData,
             "data": list(data),
         }
-
-    def _get_color(self):
-        return "rgba({},{},{},0.4)".format(
-            *map(lambda x: random.randint(0, 255), range(5))
-        )
 
     def _generate_data(self):
         return json.dumps(
@@ -127,15 +128,6 @@ class RadarChartView(BaseChartView):
     def generate_options(self):
         options = super().generate_options()
         return json.dumps(options)
-
-    """
-        Generate random rgba colors
-    """
-
-    def _get_color(self):
-        return "rgba({},{},{},0.4)".format(
-            *map(lambda x: random.randint(0, 255), range(5))
-        )
 
 
 class LineChartView(BaseChartView):
@@ -147,13 +139,13 @@ class LineChartView(BaseChartView):
         fill is False to default
     """
 
-    def create_node(self, label, data, fill=False):
-        color = self._get_color()
+    def create_node(self, label, data, fill=False, color=None):
+        colorData = color if color is not None else self._get_color()
         return {
             "data": list(data),
             "label": label,
-            "borderColor": color,
-            "backgroundColor": color,
+            "borderColor": colorData,
+            "backgroundColor": self._get_rgba_from_hex(colorData),
             "fill": fill,
         }
 
