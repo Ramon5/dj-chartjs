@@ -42,7 +42,10 @@ in views.py import type chart to want use:
     </html>
 
 
-**Options to charts views (below default values)**
+Options charts views
+~~~~~~~~~~~~~~~~~~~~
+
+below default values
 
 .. code-block:: python
 
@@ -52,6 +55,16 @@ in views.py import type chart to want use:
     aspectRatio = True
     width = 100
     height = 100
+    tooltip = None
+
+| **title:** Define a title for chart,
+| **legend:** Enable or disable legend in chart,
+| **beginAtZero:** Define yAxis init with zero,
+| **aspectRatio:** Enable resize chart when option defined as False,
+| **width:** Define width chart (When aspectRatio as False),
+| **height:** Define height chart (When aspectRatio as False),
+| **tooltip:** Define as string tooltip when on mouse hover chart.
+|
 
 If you want resize the chart, just define width an height properties and set aspectRatio as False:
 
@@ -82,6 +95,7 @@ you can pass 'label', data (list) and optional parameter 'color', if you don't p
 
 Example below:
 
+
 .. code-block:: python
 
     from django.views.generic.base import TemplateView
@@ -101,6 +115,7 @@ Example below:
             dataset.append(nodeOne)
 
             return dataset
+
 
 LineChartView
 ~~~~~~~~~~~~~

@@ -15,6 +15,7 @@ class ChartMixin(ABC):
     title = None
     legend = False
     type_chart = None
+    _colors = None
 
     @abstractmethod
     def generate_dataset(self):
@@ -31,6 +32,12 @@ class ChartMixin(ABC):
                 "text": self.title if self.title is not None else "",
             },
         }
+
+    def _generate_colors(self, labels):
+        return ["#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))) for entry in labels]
+
+    def set_colors(self,colors):
+        self._colors = colors
 
     def _get_color(self):
         return "#{:02x}{:02x}{:02x}".format(
@@ -66,12 +73,7 @@ class BarChart(ChartMixin):
             "datasets": [
                 {
                     "label": dataLabel if dataLabel is not None else "",
-                    "backgroundColor": [
-                        "#{:02x}{:02x}{:02x}".format(
-                            *map(lambda x: random.randint(0, 255), range(3))
-                        )
-                        for entry in labels
-                    ],
+                    "backgroundColor": self._colors if self._colors is not None else self._generate_colors(labels),
                     "data": list(data),
                 }
             ],
@@ -106,12 +108,7 @@ class HorizontalBarChart(ChartMixin):
             "datasets": [
                 {
                     "label": dataLabel if dataLabel is not None else "",
-                    "backgroundColor": [
-                        "#{:02x}{:02x}{:02x}".format(
-                            *map(lambda x: random.randint(0, 255), range(3))
-                        )
-                        for entry in labels
-                    ],
+                    "backgroundColor": self._colors if self._colors is not None else self._generate_colors(labels),
                     "data": list(data),
                 }
             ],
@@ -138,12 +135,7 @@ class PieChart(ChartMixin):
             "datasets": [
                 {
                     "label": dataLabel if dataLabel is not None else "",
-                    "backgroundColor": [
-                        "#{:02x}{:02x}{:02x}".format(
-                            *map(lambda x: random.randint(0, 255), range(3))
-                        )
-                        for entry in labels
-                    ],
+                    "backgroundColor": self._colors if self._colors is not None else self._generate_colors(labels),
                     "data": list(data),
                 }
             ],
