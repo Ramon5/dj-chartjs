@@ -39,7 +39,7 @@ class BaseChartView(ABC):
         )
 
     def _get_rgba_from_hex(self, color_hex):
-        color = color.lstrip("#")
+        color = color_hex.lstrip("#")
         rgb = [int(color[i : i + 2], 16) for i in [0, 2, 4]]
 
         return "rgba({},{},{}, 0.4)".format(*map(lambda x: rgb))
