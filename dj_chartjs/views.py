@@ -42,7 +42,7 @@ class BaseChartView(ABC):
         color = color_hex.lstrip("#")
         rgb = [int(color[i : i + 2], 16) for i in [0, 2, 4]]
 
-        return "rgba({},{},{}, 0.4)".format(*map(lambda x: rgb))
+        return "rgba({},{},{},0.4)".format(*map(lambda x: x, rgb))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
