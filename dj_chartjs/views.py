@@ -14,6 +14,7 @@ class BaseChartView(ABC):
     aspectRatio = True
     width = 100
     height = 100
+    tooltip = None
 
     @abstractmethod
     def generate_values(self):
@@ -51,6 +52,7 @@ class BaseChartView(ABC):
         context["chart"] = {
             "data": self._generate_data(),
             "options": self.generate_options(),
+            "tooltip": self.tooltip if self.tooltip is not None else " "
         }
         context["type"] = self.type_chart
         if self.aspectRatio is not True:

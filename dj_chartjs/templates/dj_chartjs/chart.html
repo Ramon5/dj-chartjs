@@ -4,12 +4,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
 <script type="text/javascript">
     var chartOptions = {{ chart.options|safe }};
-    var legendText = "{{ legend_text }}";
+    var tooltip = "{{ chart.tooltip }}";
     callback = {
         callbacks: {
             label: function(tooltipItem,data) {
                 var dataset = data.datasets[tooltipItem.datasetIndex];
-                return legendText + dataset.data[tooltipItem.index];
+                return tooltip + dataset.data[tooltipItem.index];
             }
         }
     }
