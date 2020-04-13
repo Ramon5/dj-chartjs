@@ -21,6 +21,8 @@ class BaseChartView(ABC):
 
     def generate_options(self):
         options = {
+            "responsive": True,
+            "maintainAspectRatio": self.aspectRatio,
             "legend": {"display": self.legend},
             "title": {
                 "display": True if self.title is not None else False,
