@@ -308,13 +308,13 @@ For use radar charts as a object in your view, do this:
         template_name = "core/example.html"
 
         def my_method(self):
-            radarchart = RadarChart()
-            radarchart.title = "Example charts title"
+            chart = RadarChart()
+            chart.title = "Example charts title"
 
             labels = ["test 1","test 2", "test 3", "test 4"]
             data = []
-            data.append(self.create_node("Example 1", [5,8,9,64,3])
-            data.append(self.create_node("Example 2", [10,1,19,6,13])
+            data.append(chart.create_node("Example 1", [5,8,9,64,3])
+            data.append(chart.create_node("Example 2", [10,1,19,6,13])
             ....
 
             return radarchart.generate_dataset(labels, data, label)
@@ -344,7 +344,7 @@ LineChart
 
             labels = ["test 1","test 2", "test 3", "test 4"]
             data = []
-            data.append(self.create_node("Example 1", [5,8,9,64,3])
+            data.append(chart.create_node("Example 1", [5,8,9,64,3])
             ....
 
             return chart.generate_dataset(labels, data, label)
@@ -376,7 +376,7 @@ Just use LineChart and define fill parameter as a True, you can define color to 
 
             labels = ["test 1","test 2", "test 3", "test 4"]
             data = []
-            data.append(self.create_node("Example 1", [5,8,9,64,3], True)
+            data.append(chart.create_node("Example 1", [5,8,9,64,3], True)
             ....
 
             return chart.generate_dataset(labels, data, label)
