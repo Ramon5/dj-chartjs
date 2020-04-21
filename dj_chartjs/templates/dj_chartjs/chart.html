@@ -5,6 +5,7 @@
 <script type="text/javascript">
     var chartOptions = {{ chart.options|safe }};
     var tooltip = "{{ chart.tooltip }}";
+    var ctx = document.getElementById("chart_view");
     callback = {
         callbacks: {
             label: function(tooltipItem,data) {
@@ -15,7 +16,7 @@
     }
     chartOptions.tooltips = Object.assign(callback);
     $(function(){       
-        new Chart(document.getElementById("chart_view"), {
+        new Chart(ctx, {
             type: "{{ type_chart }}",
             data: {{ chart.data|safe }},
             options: chartOptions

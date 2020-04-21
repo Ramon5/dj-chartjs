@@ -45,14 +45,14 @@ class BaseChartView(ABC):
         color = color_hex.lstrip("#")
         rgb = [int(color[i : i + 2], 16) for i in [0, 2, 4]]
 
-        return "rgba({},{},{},0.4)".format(*map(lambda x: x, rgb))
+        return "rgba({},{},{},0.6)".format(*map(lambda x: x, rgb))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["chart"] = {
             "data": self._generate_data(),
             "options": self.generate_options(),
-            "tooltip": self.tooltip if self.tooltip is not None else " "
+            "tooltip": self.tooltip if self.tooltip is not None else " ",
         }
         context["type"] = self.type_chart
         if self.aspectRatio is not True:

@@ -34,9 +34,14 @@ class ChartMixin(ABC):
         }
 
     def _generate_colors(self, labels):
-        return ["#{:02x}{:02x}{:02x}".format(*map(lambda x: random.randint(0, 255), range(3))) for entry in labels]
+        return [
+            "#{:02x}{:02x}{:02x}".format(
+                *map(lambda x: random.randint(0, 255), range(3))
+            )
+            for entry in labels
+        ]
 
-    def set_colors(self,colors):
+    def set_colors(self, colors):
         self._colors = colors
 
     def _get_color(self):
@@ -48,7 +53,7 @@ class ChartMixin(ABC):
         color = color.lstrip("#")
         rgb = [int(color[i : i + 2], 16) for i in [0, 2, 4]]
 
-        return "rgba({},{},{},0.4)".format(*map(lambda x: x, rgb))
+        return "rgba({},{},{},0.6)".format(*map(lambda x: x, rgb))
 
 
 class BarChart(ChartMixin):
@@ -73,7 +78,9 @@ class BarChart(ChartMixin):
             "datasets": [
                 {
                     "label": dataLabel if dataLabel is not None else "",
-                    "backgroundColor": self._colors if self._colors is not None else self._generate_colors(labels),
+                    "backgroundColor": self._colors
+                    if self._colors is not None
+                    else self._generate_colors(labels),
                     "data": list(data),
                 }
             ],
@@ -108,7 +115,9 @@ class HorizontalBarChart(ChartMixin):
             "datasets": [
                 {
                     "label": dataLabel if dataLabel is not None else "",
-                    "backgroundColor": self._colors if self._colors is not None else self._generate_colors(labels),
+                    "backgroundColor": self._colors
+                    if self._colors is not None
+                    else self._generate_colors(labels),
                     "data": list(data),
                 }
             ],
@@ -135,7 +144,9 @@ class PieChart(ChartMixin):
             "datasets": [
                 {
                     "label": dataLabel if dataLabel is not None else "",
-                    "backgroundColor": self._colors if self._colors is not None else self._generate_colors(labels),
+                    "backgroundColor": self._colors
+                    if self._colors is not None
+                    else self._generate_colors(labels),
                     "data": list(data),
                 }
             ],
@@ -157,7 +168,7 @@ class PolarAreaChart(PieChart):
 
 
 class LineChart(ChartMixin):
-    
+
     type_chart = "line"
 
     def create_node(self, data, label, fill=False, color=None):
@@ -197,11 +208,7 @@ class GroupChart(ChartMixin):
 
     def create_node(self, data, label, color=None):
         colorData = color if color is not None else self._get_color()
-        return {
-            "label": label,
-            "backgroundColor": colorData,
-            "data": list(data),
-        }
+        return {"label": label, "backgroundColor": colorData, "data": list(data)}
 
     def generate_dataset(self, labels, data):
         dataset = {"labels": list(labels), "datasets": list(data)}
@@ -228,7 +235,6 @@ class RadarChart(ChartMixin):
             "pointBackgroundColor": color,
             "data": list(data),
         }
-
 
     def generate_dataset(self, labels, data):
         dataset = {"labels": list(labels), "datasets": list(data)}
