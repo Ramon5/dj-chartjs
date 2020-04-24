@@ -392,3 +392,68 @@ GroupChart
 ~~~~~~~~~~
 
 The same method that charts above, only difference is the create_node method have a color parameter.
+
+
+Override Tooltips
+-----------------
+
+You can override tooltips in charts, just only define `chart.tooltips` with list tooltips itens.
+
+.. code-block:: javascript
+    
+$(function(){
+
+        var options = {{ chart.options|safe }};
+
+        tooltips = {
+            callbacks: {
+                label: function(tooltipItem, data){
+                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    var tooltip = dataset.label[tooltipItem.index];
+                    return "My custom tooltip: " + tooltip; // You can customize here
+                }
+            }
+        }
+
+        options.tooltips = Object.assign(tooltips); //append extra option into context option
+
+        new Chart(document.getElementById("mychart"), {
+            type: "{{ chart.type }}",
+            data: {{ chart.data|safe }},
+            options: options
+        });
+    });
+
+Override yAxes in BarCharts
+---------------------------
+
+You can override yAxes to show values in percentage, just only add extra scales options:
+
+PS: you need convert value to percentage value in django views or in callback function into javascript.
+
+.. code-block:: javascript
+    $(function(){
+
+        var options = {{ chart.options|safe }};
+
+        scales = {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: this.max,
+                    callback: function (value) {
+                        return value + '%'; 
+                    },
+                }
+            }]
+        }
+
+        options.scales = Object.assign(scales); //append extra option into context option
+
+        new Chart(document.getElementById("mychart"), {
+            type: "{{ chart.type }}",
+            data: {{ chart.data|safe }},
+            options: options
+        });
+    });

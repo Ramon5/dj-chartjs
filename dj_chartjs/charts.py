@@ -59,6 +59,7 @@ class ChartMixin(ABC):
 class BarChart(ChartMixin):
 
     type_chart = "bar"
+    tooltips = []
 
     def generate_options(self):
         options = super().generate_options()
@@ -72,12 +73,12 @@ class BarChart(ChartMixin):
         }
         return options
 
-    def generate_dataset(self, labels, data, dataLabel=None):
+    def generate_dataset(self, labels, data, dataLabel=""):
         dataset = {
             "labels": list(labels),
             "datasets": [
                 {
-                    "label": dataLabel if dataLabel is not None else "",
+                    "label": self.tooltips if len(self.tooltips) > 0 else dataLabel,
                     "backgroundColor": self._colors
                     if self._colors is not None
                     else self._generate_colors(labels),
