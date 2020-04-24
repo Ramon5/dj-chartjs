@@ -14,7 +14,9 @@ class BaseChartView(ABC):
     aspectRatio = True
     width = 100
     height = 100
-    tooltip = None
+    
+    def get_tooltips(self):
+        return []
 
     @abstractmethod
     def generate_values(self):
@@ -52,7 +54,7 @@ class BaseChartView(ABC):
         context["chart"] = {
             "data": self._generate_data(),
             "options": self.generate_options(),
-            "tooltip": self.tooltip if self.tooltip is not None else " ",
+            "tooltip": self.get_tooltips() if len(self.get_tooltips()) > 0 else " ",
         }
         context["type"] = self.type_chart
         if self.aspectRatio is not True:
@@ -63,7 +65,7 @@ class BaseChartView(ABC):
 
 
 class BarChartView(BaseChartView):
-    label = ""
+    
     type_chart = "bar"
 
     def _generate_data(self):
@@ -76,21 +78,15 @@ class BarChartView(BaseChartView):
     def generate_options(self):
         options = super().generate_options()
         options["scales"] = {
-            "yAxes": [{"display": True, "ticks": {"beginAtZero": True}}]
+            "yAxes": [{"display": True, "ticks": {"beginAtZero": self.beginAtZero}}]
         }
-
-        """options["tooltips"] = {
-            "callbacks": { 
-                "label": json.dumps("function(tooltipItem,data){ var dataset = data.datasets[tooltipItem.datasetIndex]; return dataset; }")
-            }
-        }"""
 
         return json.dumps(options)
 
     def _generate_dataset(self, values):
         collection = []
         dataset = {
-            "label": self.label,
+            "label": self.get_tooltips() if len(self.get_tooltips()) > 0 else "",
             "backgroundColor": [self._get_color() for entry in self.generate_labels()],
             "data": values,
         }

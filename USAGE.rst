@@ -399,6 +399,48 @@ Override Tooltips
 
 You can override tooltips in charts, just only define `chart.tooltips` with list tooltips itens.
 
+chart as object
+
+**views.py**
+
+.. code-block:: python
+    
+    class ExampleView(TemplateView):
+
+        template_name = "core/example.html"
+
+        def my_method(self):
+            barchart = BarChart()
+            barchart.title = "Example charts title"
+            barchart.tooltips = ["tooltip 1","tooltip 2","tooltip 3"]
+
+            ...
+
+or chart as a view:
+
+**views.py**
+
+.. code-block:: python
+
+    from django.views.generic.base import TemplateView
+    from django_charts.views import BarChartView
+
+    class ExampleChart(BarChartView, TemplateView):
+        ...
+        title = "Index of ..."
+
+        def generate_labels(self):
+            return ["Africa","Brazil","Japan","EUA"]
+
+        def generate_values(self):
+            return [1,10,15,8]
+        
+        def get_tooltips(self):
+            return ["tooltip 1","tooltip 2","tooltip 3"]
+
+
+**And your template use this:**
+
 .. code-block:: javascript
     
     $(function(){

@@ -16,6 +16,7 @@ class ChartMixin(ABC):
     legend = False
     type_chart = None
     _colors = None
+    tooltips = []
 
     @abstractmethod
     def generate_dataset(self):
@@ -59,7 +60,6 @@ class ChartMixin(ABC):
 class BarChart(ChartMixin):
 
     type_chart = "bar"
-    tooltips = []
 
     def generate_options(self):
         options = super().generate_options()
