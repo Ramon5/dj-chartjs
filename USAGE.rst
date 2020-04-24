@@ -401,7 +401,7 @@ You can override tooltips in charts, just only define `chart.tooltips` with list
 
 .. code-block:: javascript
     
-$(function(){
+    $(function(){
 
         var options = {{ chart.options|safe }};
 
@@ -432,6 +432,7 @@ You can override yAxes to show values in percentage, just only add extra scales 
 PS: you need convert value to percentage value in django views or in callback function into javascript.
 
 .. code-block:: javascript
+
     $(function(){
 
         var options = {{ chart.options|safe }};
