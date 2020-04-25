@@ -12,6 +12,7 @@ class ChartMixin(ABC):
 
     beginAtZero = True
     aspectRatio = True
+    stepSize = 0.5
     title = None
     legend = False
     type_chart = None
@@ -67,7 +68,7 @@ class BarChart(ChartMixin):
             "yAxes": [
                 {
                     "display": True,
-                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": 1},
+                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": self.stepSize},
                 }
             ]
         }
@@ -104,7 +105,7 @@ class HorizontalBarChart(ChartMixin):
             "xAxes": [
                 {
                     "display": True,
-                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": 1},
+                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": self.stepSize},
                 }
             ]
         }
@@ -188,7 +189,7 @@ class LineChart(ChartMixin):
             "yAxes": [
                 {
                     "display": True,
-                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": 1},
+                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": self.stepSize},
                 }
             ]
         }

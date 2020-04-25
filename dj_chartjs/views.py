@@ -12,6 +12,7 @@ class BaseChartView(ABC):
     legend = False
     beginAtZero = False
     aspectRatio = True
+    stepSize = 0.5
     width = 100
     height = 100
     
@@ -78,7 +79,7 @@ class BarChartView(BaseChartView):
     def generate_options(self):
         options = super().generate_options()
         options["scales"] = {
-            "yAxes": [{"display": True, "ticks": {"beginAtZero": self.beginAtZero}}]
+            "yAxes": [{"display": True, "ticks": {"beginAtZero": self.beginAtZero,"stepSize": self.stepSize}}]
         }
 
         return json.dumps(options)
@@ -151,7 +152,7 @@ class LineChartView(BaseChartView):
             "yAxes": [
                 {
                     "display": True,
-                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": 1},
+                    "ticks": {"beginAtZero": self.beginAtZero, "stepSize": self.stepSize},
                 }
             ]
         }

@@ -61,6 +61,7 @@ below default values
 | **legend:** Enable or disable legend in chart,
 | **beginAtZero:** Define yAxis init with zero,
 | **aspectRatio:** Enable resize chart when option defined as False,
+| **stepSize:** Define interval yAxis,
 | **width:** Define width chart (When aspectRatio as False),
 | **height:** Define height chart (When aspectRatio as False),
 | **tooltip:** Define as string tooltip when on mouse hover chart.
