@@ -198,10 +198,11 @@ class PolarAreaChartView(BarChartView):
 
 class PieChartView(BarChartView):
     type_chart = "pie"
+    position = "top" # top,right, bottom, left
 
     def generate_options(self):
         options = {
-            "legend": {"display": self.legend, "position": "right"},
+            "legend": {"display": self.legend, "position": self.position},
             "title": {
                 "display": True if self.title is not None else False,
                 "text": self.title,

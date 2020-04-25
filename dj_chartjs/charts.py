@@ -134,10 +134,11 @@ class HorizontalBarChart(ChartMixin):
 
 class PieChart(ChartMixin):
     type_chart = "pie"
+    position = "top" # top,right, bottom, left
 
     def generate_options(self):
         context = super().generate_options()
-        context["legend"] = {"position": "right"}
+        context["legend"] = {"position": self.position}
         return context
 
     def generate_dataset(self, labels, data, dataLabel=None):
