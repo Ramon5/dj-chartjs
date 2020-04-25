@@ -173,7 +173,7 @@ class LineChart(ChartMixin):
 
     type_chart = "line"
 
-    def create_node(self, data, label, fill=False, color=None):
+    def create_node(self, label, data,fill=False, color=None):
         colorData = color if color is not None else self._get_color()
         return {
             "data": list(data),
@@ -195,7 +195,7 @@ class LineChart(ChartMixin):
         }
         return options
 
-    def generate_dataset(self, data, labels):
+    def generate_dataset(self, labels, data):
         dataset = {"labels": labels, "datasets": data}
 
         return {
