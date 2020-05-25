@@ -65,7 +65,7 @@ below default values
 | **width:** Define width chart (When aspectRatio as False),
 | **height:** Define height chart (When aspectRatio as False),
 | **tooltip:** Define as string tooltip when on mouse hover chart.
-|
+| **colors:** Define list of colors (string hex representation) to override random colors
 
 If you want resize the chart, just define width an height properties and set aspectRatio as False:
 
@@ -215,6 +215,23 @@ It's possible define options to object chart, for example:
 
 | barchart.title = "..."
 | barchart.legend = True
+
+
+Define fixed colors to chart
+----------------------------
+
+For define fixed instead random colors use this:
+
+.. code-block:: python
+
+    class ExampleView(TemplateView):
+
+        template_name = "core/example.html"
+
+        def my_method(self):
+            barchart = BarChart()
+            barchart.set_colors(["#fff","#B4edf",...]) # set your color list here
+            
 
 
 Many charts by views

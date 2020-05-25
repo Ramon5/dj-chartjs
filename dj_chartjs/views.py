@@ -15,6 +15,7 @@ class BaseChartView(ABC):
     stepSize = 0.5
     width = 100
     height = 100
+    colors = []
     
     def get_tooltips(self):
         return []
@@ -40,6 +41,8 @@ class BaseChartView(ABC):
         pass
 
     def _get_color(self):
+        if(len(self.colors) > 0):
+            return self.colors
         return "#{:02x}{:02x}{:02x}".format(
             *map(lambda x: random.randint(0, 255), range(3))
         )
@@ -51,9 +54,9 @@ class BaseChartView(ABC):
         return "rgba({},{},{},0.6)".format(*map(lambda x: x, rgb))
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = {}
         context["chart"] = {
-            "data": self._generate_data(),
+            "data": self.generate_values(),
             "options": self.generate_options(),
             "tooltip": self.get_tooltips() if len(self.get_tooltips()) > 0 else " ",
         }
@@ -74,7 +77,7 @@ class BarChartView(BaseChartView):
             "labels": self.generate_labels(),
             "datasets": self._generate_dataset(self.generate_values()),
         }
-        return json.dumps(data)
+        return json.dumps(data, ensure_ascii=False)
 
     def generate_options(self):
         options = super().generate_options()
@@ -82,13 +85,13 @@ class BarChartView(BaseChartView):
             "yAxes": [{"display": True, "ticks": {"beginAtZero": self.beginAtZero,"stepSize": self.stepSize}}]
         }
 
-        return json.dumps(options)
+        return json.dumps(options, ensure_ascii=False)
 
     def _generate_dataset(self, values):
         collection = []
         dataset = {
             "label": self.get_tooltips() if len(self.get_tooltips()) > 0 else "",
-            "backgroundColor": [self._get_color() for entry in self.generate_labels()],
+            "backgroundColor": [self._get_color() for entry in self.generate_labels()] if len(self.colors) < 1 else self._get_color(),
             "data": values,
         }
         collection.append(dataset)
@@ -119,12 +122,12 @@ class RadarChartView(BaseChartView):
 
     def _generate_data(self):
         return json.dumps(
-            {"labels": self.generate_labels(), "datasets": self.generate_values()}
+            {"labels": self.generate_labels(), "datasets": self.generate_values()}, ensure_ascii=False
         )
 
     def generate_options(self):
         options = super().generate_options()
-        return json.dumps(options)
+        return json.dumps(options, ensure_ascii=False)
 
 
 class LineChartView(BaseChartView):
@@ -156,7 +159,7 @@ class LineChartView(BaseChartView):
                 }
             ]
         }
-        return json.dumps(options)
+        return json.dumps(options, ensure_ascii=False)
 
     def _get_color(self):
         return "rgba({},{},{},0.4)".format(
@@ -165,7 +168,7 @@ class LineChartView(BaseChartView):
 
     def _generate_data(self):
         return json.dumps(
-            {"labels": self.generate_labels(), "datasets": self.generate_values()}
+            {"labels": self.generate_labels(), "datasets": self.generate_values()}, ensure_ascii=False
         )
 
 
@@ -184,7 +187,7 @@ class GroupChartView(BaseChartView):
 
     def _generate_data(self):
         return json.dumps(
-            {"labels": self.generate_labels(), "datasets": self.generate_values()}
+            {"labels": self.generate_labels(), "datasets": self.generate_values()}, ensure_ascii=False
         )
 
 
@@ -209,7 +212,7 @@ class PieChartView(BarChartView):
             },
         }
 
-        return json.dumps(options)
+        return json.dumps(options, ensure_ascii=False)
 
     def get_legend_text(self):
         return ""

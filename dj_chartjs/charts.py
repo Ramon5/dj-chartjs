@@ -90,8 +90,8 @@ class BarChart(ChartMixin):
 
         return {
             "type": self.type_chart,
-            "data": json.dumps(dataset),
-            "options": json.dumps(self.generate_options()),
+            "data": json.dumps(dataset, ensure_ascii=False),
+            "options": json.dumps(self.generate_options(), ensure_ascii=False),
         }
 
 
@@ -127,8 +127,8 @@ class HorizontalBarChart(ChartMixin):
 
         return {
             "type": self.type_chart,
-            "data": json.dumps(dataset),
-            "options": json.dumps(self.generate_options()),
+            "data": json.dumps(dataset, ensure_ascii=False),
+            "options": json.dumps(self.generate_options(), ensure_ascii=False),
         }
 
 
@@ -157,8 +157,8 @@ class PieChart(ChartMixin):
 
         return {
             "type": self.type_chart,
-            "data": json.dumps(dataset),
-            "options": json.dumps(self.generate_options()),
+            "data": json.dumps(dataset, ensure_ascii=False),
+            "options": json.dumps(self.generate_options(), ensure_ascii=False),
         }
 
 
@@ -201,8 +201,8 @@ class LineChart(ChartMixin):
 
         return {
             "type": self.type_chart,
-            "data": json.dumps(dataset),
-            "options": json.dumps(self.generate_options()),
+            "data": json.dumps(dataset, ensure_ascii=False),
+            "options": json.dumps(self.generate_options(), ensure_ascii=False),
         }
 
 
@@ -218,8 +218,8 @@ class GroupChart(ChartMixin):
 
         return {
             "type": self.type_chart,
-            "data": json.dumps(dataset),
-            "options": json.dumps(self.generate_options()),
+            "data": json.dumps(dataset, ensure_ascii=False),
+            "options": json.dumps(self.generate_options(), ensure_ascii=False),
         }
 
 
@@ -244,6 +244,6 @@ class RadarChart(ChartMixin):
 
         return {
             "type": self.type_chart,
-            "data": json.dumps(dataset),
-            "options": json.dumps(self.generate_options()),
+            "data": json.dumps(dataset, ensure_ascii=False),
+            "options": json.dumps(self.generate_options(), ensure_ascii=False),
         }
