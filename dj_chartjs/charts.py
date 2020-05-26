@@ -20,7 +20,11 @@ class ChartMixin(ABC):
     tooltips = []
 
     @abstractmethod
-    def generate_dataset(self):
+    def generate_dataset(self, labels, data):
+        """
+            `labels` (list) str -> list of string texts
+            `data` (list) int or float values -> list values to render in chart
+        """
         pass
 
     def generate_options(self):
@@ -81,7 +85,7 @@ class BarChart(ChartMixin):
                 {
                     "label": self.tooltips if len(self.tooltips) > 0 else dataLabel,
                     "backgroundColor": self._colors
-                    if self._colors is not None
+                    if len(self._colors) > 0
                     else self._generate_colors(labels),
                     "data": list(data),
                 }
@@ -118,7 +122,7 @@ class HorizontalBarChart(ChartMixin):
                 {
                     "label": dataLabel if dataLabel is not None else "",
                     "backgroundColor": self._colors
-                    if self._colors is not None
+                    if len(self._colors) > 0
                     else self._generate_colors(labels),
                     "data": list(data),
                 }
@@ -148,7 +152,7 @@ class PieChart(ChartMixin):
                 {
                     "label": dataLabel if dataLabel is not None else "",
                     "backgroundColor": self._colors
-                    if self._colors is not None
+                    if len(self._colors) > 0
                     else self._generate_colors(labels),
                     "data": list(data),
                 }
@@ -174,7 +178,13 @@ class LineChart(ChartMixin):
 
     type_chart = "line"
 
-    def create_node(self, label, data,fill=False, color=None):
+    def create_node(self, label, data, fill=False, color=None):
+        """
+            this method create special line node, you must pass parameters
+            `label` str -> an label individual node, `data`  list -> data render on chart,
+            `fill` bool -> default is False, use this to create area chart
+            `color` str -> hex color representation (when fill is True)
+        """
         colorData = color if color is not None else self._get_color()
         return {
             "data": list(data),
@@ -209,7 +219,13 @@ class LineChart(ChartMixin):
 class GroupChart(ChartMixin):
     type_chart = "bar"
 
-    def create_node(self, data, label, color=None):
+    def create_node(self, label, data, color=None):
+        """
+            This method create an special node to group chart:
+            `label` -> (str) text to represent individual data
+            `data` -> (list) data to render in chart
+            `color` -> (str) hex string representation of color, default is None
+        """
         colorData = color if color is not None else self._get_color()
         return {"label": label, "backgroundColor": colorData, "data": list(data)}
 
