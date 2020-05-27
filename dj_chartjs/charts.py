@@ -85,7 +85,7 @@ class BarChart(ChartMixin):
                 {
                     "label": self.tooltips if len(self.tooltips) > 0 else dataLabel,
                     "backgroundColor": self._colors
-                    if len(self._colors) > 0
+                    if self._colors is not None
                     else self._generate_colors(labels),
                     "data": list(data),
                 }
@@ -122,7 +122,7 @@ class HorizontalBarChart(ChartMixin):
                 {
                     "label": dataLabel if dataLabel is not None else "",
                     "backgroundColor": self._colors
-                    if len(self._colors) > 0
+                    if self._colors is not None
                     else self._generate_colors(labels),
                     "data": list(data),
                 }
@@ -152,7 +152,7 @@ class PieChart(ChartMixin):
                 {
                     "label": dataLabel if dataLabel is not None else "",
                     "backgroundColor": self._colors
-                    if len(self._colors) > 0
+                    if self._colors is not None
                     else self._generate_colors(labels),
                     "data": list(data),
                 }
